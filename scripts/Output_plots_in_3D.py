@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Created on Fri Feb 14 12:34:35 2024
 Modified on Jun 19 19 15:13:04 2025
@@ -28,7 +26,7 @@ def three_dimension_plot(animal_df: pd.DataFrame,
                          z_axis_label: str,
                          graph_title: str,
                          save: bool,
-                         path: str,
+                         output_path : str,
                          camera_coordinates: dict = {"x": 1.2, "y": 1.9, "z": 0.0}
                          ):
     """
@@ -64,7 +62,7 @@ def three_dimension_plot(animal_df: pd.DataFrame,
             name=category
         ))
 
-    # Set the layout of the figure
+
     fig.update_layout(
         title= graph_title,
         scene=dict(
@@ -91,26 +89,26 @@ def three_dimension_plot(animal_df: pd.DataFrame,
                 gridcolor='lightgrey',
                 zerolinecolor='lightgrey',
             ),
-            bgcolor='white'  # removes the blue 3D "cube" background
+            bgcolor='white'
         )
     )
     fig.update_layout(
-        showlegend=False,  # Hides the legend
-        title=None  # Removes the title
+        showlegend=False,
+        title=None
     )
 
     fig.update_layout(scene_camera=dict(
         eye=camera_coordinates  # custom camera position
     ))
-    # Show figure
+
     fig.show()
     if save:
-        fig.write_image(f"{path}.png", width=1000, height=1000, scale=6)
-        fig.write_html(f"{path}.html")
+        fig.write_image(f"{output_path}.png", width=1000, height=1000, scale=6)
+        fig.write_html(f"{output_path}.html")
 
 
-
-if __name__ == '__main__':
+'''
+Exemple usage
     color = {
         'CSDS': {
             "Control": 'blue',
@@ -122,25 +120,30 @@ if __name__ == '__main__':
     }
 
     animal_data = pd.read_csv(
-        '/Users/max/Desktop/THESE/PROJECTS/jose_data/Article/Male_data.csv')
+        'path/to/data/Male_data.csv')
 
 
     animal_data = animal_data.astype({'Animal_ID': 'category',
                                               'CSDS': 'category',
                                               'SIR_Classification': 'category'})
 
-    three_dimension_plot(animal_data,
-                         color["SIR_Classification"],
-                         "SIR_Classification",
-                         "Distance_based_ratio_typeB",
-                         'SIR_typeB',
-                         'Index',
-                         'Distance-based SIR TypeB',
-                         'Time-based SIR TypeB',
-                         'Social Engagement Index',
-                         'test',
-                         True,
-                         '/Users/max/Desktop/THESE/PROJECTS/jose_data/Figure_article/3D_plot_Male')
+    three_dimension_plot(animal_df = animal_data,
+                         palette = color["SIR_Classification"],
+                         x_axis = "SIR_Classification",
+                         y_axis = "Distance_based_ratio_typeB",
+                         z_axis = 'SIR_typeB',
+                         x_axis_label'Index',
+                         y_axis_label'Distance-based SIR TypeB',
+                         z_axis_label'Time-based SIR TypeB',
+                         graph_title = 'Social Engagement Index',
+                         save = True,
+                         output_path = 'name/output/file/3D_plot_Male',
+                         camera_coordinates = {"x": 1.2, "y": 1.9, "z": 0.0})
+                         
+                        
+                         
+PS: note that this will create both an HTML file, and a PNG using the camera view
+'''
 
 
 
