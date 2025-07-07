@@ -174,22 +174,12 @@ def extract_polygonal_arena_coordinates(
     current_video = imread(video_path)
     current_frame = np.random.choice(current_video.shape[0])
 
-    # Get and return the corners of the SIZ
-    try:
-        import google.colab
+    arena_corners = retrieve_SIZ_corners_from_image(
+        current_video[current_frame].compute(),
+        video_index,
+        videos,
+    )
 
-        arena_corners = retrieve_SIZ_corners_from_colab(
-            current_video[current_frame].compute(),
-            video_index,
-            videos,
-        )
-
-    except ImportError:
-        arena_corners = retrieve_SIZ_corners_from_image(
-            current_video[current_frame].compute(),
-            video_index,
-            videos,
-        )
     return arena_corners, current_video.shape[2], current_video.shape[1]
 
 
