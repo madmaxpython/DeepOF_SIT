@@ -22,42 +22,22 @@
 
 ## 📁 Project Structure
 
-| Path                        | Description                                      |
-|----------------------------|--------------------------------------------------|
-| `sit_analysis/analyzer.py` | Core analysis classes: `SITAnalyzer`, `Experience` |
-| `sit_analysis/data_loader.py` | Utility functions for loading configs        |
-| `scripts/define_zones.py`  | Tool to draw/define zones on video frames        |
-| `scripts/generate_3d_plot.py` | Generate 3D trajectory plots                |
-| `notebooks/`               | Jupyter notebooks to reproduce article figures   |
-| `main.py`                  | Main script to run the analysis                  |
-| `requirements.txt`         | Clean list of dependencies                       |
-| `tests/`                   | Optional unit tests                              |
+
 
 
 
 ## 📦 Installation
 
 ```bash
-git clone https://github.com/yourusername/sit-analyzer.git
-cd sit-analyzer
+git clone https://github.com/madmaxpython/DeepOF_SIT/
+cd DeepOF_SIT
 pip install -r requirements.txt
 ```
 
 ## 🚀 Quickstart
-1. Define Zones for Each Video
-Use the provided script to annotate arenas and SIZ regions manually:
-```bash
-python scripts/define_zones.py
-```
-This will save TXT files that map arena/SIZ coordinates to each video.
 
-2. Run Batch Analysis
-In main.py, set the paths to your project and zone files, then run:
-```bash
-python main.py
-```
 
-Output: a .csv file or DataFrame with per-animal metrics across both sessions.
+=
 
 ## 📊 Metrics Included
 
