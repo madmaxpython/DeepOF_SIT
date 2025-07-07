@@ -1,38 +1,8 @@
-from typing import List, Tuple
+from typing import Dict, List, Tuple, Any, Optional
 import numpy as np
 import pandas as pd
 import matplotlib.path as mpath
-import ast
-
-import deepof
-
-def read_tuples_file(path: str,
-                     single_object: bool=False):
-    with open(path, 'r') as f:
-        content = f.read()
-        return ast.literal_eval(content) if single_object else [
-            ast.literal_eval(line.strip()) for line in content.strip().split('\n') if line.strip()
-        ]
-
-def load_deepof_project(project_path: str,
-                        conditions_path: str):
-    project = deepof.data.load_project(project_path)
-    if conditions_path:
-        project.load_exp_conditions(conditions_path)
-        for animal in project._exp_conditions:
-            project._exp_conditions[animal] = project._exp_conditions[animal].astype({
-                'CSDS': 'category',
-                'Cohort': 'category',
-                'SIT_session': 'category'
-            })
-    return project
-
-def match_params_to_videos(videos,
-                           arena_params,
-                           siz_params):
-    cleaned_names = ['_'.join(x.split('DLC')[:1]) for x in videos]
-    return dict(zip(cleaned_names, arena_params)), dict(zip(cleaned_names, siz_params))
-
+from data_loader import read_tuples_file, load_deepof_project, match_params_to_videos
 
 class SITAnalyzer:
     """
@@ -53,8 +23,8 @@ class SITAnalyzer:
         self,
         arena_coords: List[Tuple[float, float]],
         siz_coords: List[Tuple[float, float]],
-        fps: float = 30
-    ) -> None:
+        fps: float = 30) -> None:
+
         self.FPS: float = fps
 
         # Arena corners
@@ -75,10 +45,8 @@ class SITAnalyzer:
         # Define point of interest (POI): top-center of the arena
         self.POI: np.ndarray = np.mean([self.top_left_arena, self.top_right_arena], axis=0)
 
-    def distance_to_poi(
-        self,
-        body_part: pd.DataFrame
-    ) -> Tuple[pd.Series, pd.Series]:
+    def distance_to_poi(self,
+        body_part: pd.DataFrame) -> Tuple[pd.Series, pd.Series]:
         """
         Compute absolute and normalized distance of a body part to the POI.
 
@@ -107,8 +75,7 @@ class SITAnalyzer:
     def total_distance_traveled(
         self,
         body_part: pd.DataFrame,
-        px_size: float
-    ) -> float:
+        px_size: float) -> float:
         """
         Calculate the total distance traveled by a body part.
 
@@ -134,8 +101,7 @@ class SITAnalyzer:
 
     def time_in_SIZ(
         self,
-        body_part: pd.DataFrame
-    ) -> float:
+        body_part: pd.DataFrame) -> float:
         """
         Calculate the total time spent in the Social Interaction Zone (SIZ).
 
@@ -187,8 +153,8 @@ class Experience:
         arena_path: str,
         SIZ_path: str,
         fps: float = 30,
-        PX_SIZE: float = 0.1
-    ) -> None:
+        PX_SIZE: float = 0.1) -> None:
+
         self.project: Any = load_deepof_project(project_path, conditions_path)
         self.arena_params: Any = read_tuples_file(arena_path)
         self.siz_params: Any = read_tuples_file(SIZ_path, single_object=True)
