@@ -1,5 +1,12 @@
+"""
+Created on Mon Jul 07 13:50:45 2025
+
+CLI version to run Social Interaction Analysis
+####
+
+@author: @madmaxpython
+"""
 import argparse
-import os
 from sit_analysis.analyzer import Experience
 
 def main():
