@@ -1,6 +1,6 @@
 import os
 
-from DeepOF_SIT.sit_analysis.analyzer import Experience
+from sit_analysis.analyzer import Experience
 
 
 def main(PROJECT_PATH : str,
