@@ -218,15 +218,16 @@ class Experience:
             (df["Normalized_distance_to_POI_Session1"] +
              df["Normalized_distance_to_POI_Session2"])
         )
+        df["Social_Engagement_Index"] = df["Time_SIR_typeB"] / df["Distance_SIR_typeA"]
 
         # Reorder columns for readability
         df = df.reindex(columns=[
             "Animal_ID",
             "Time_in_SIZ_Session1", "Time_in_SIZ_Session2",
             "Normalized_distance_to_POI_Session1", "Normalized_distance_to_POI_Session2",
+            "Time_SIR_typeB","Distance_SIR_typeB", "Social_Engagement_Index",
+            "Time_SIR_typeA","Distance_SIR_typeA",
             "Total_Distance_Traveled_Session1", "Total_Distance_Traveled_Session2",
-            "Time_SIR_typeA", "Time_SIR_typeB",
-            "Distance_SIR_typeA", "Distance_SIR_typeB",
         ])
 
         # Ensure numeric types where possible
